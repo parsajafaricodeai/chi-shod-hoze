@@ -1,0 +1,6 @@
+{
+  "name": "چی شد حوزه؟",
+  "description": "رسانه گفت‌وگومحور و مستند «چی شد حوزه؟»؛ روایت آدم‌هایی که این مسیر را زندگی کرده‌اند.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
