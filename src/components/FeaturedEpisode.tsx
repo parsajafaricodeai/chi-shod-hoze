@@ -14,6 +14,12 @@ export const FeaturedEpisode: React.FC<FeaturedEpisodeProps> = ({
   onPlay,
   onSelect,
 }) => {
+  if (!episode) return null;
+
+  const thumbnailSrc =
+    episode.thumbnail ||
+    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80';
+
   return (
     <section id="featured-episode-section" className="py-16 sm:py-24 bg-[#FAF9F5]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +48,7 @@ export const FeaturedEpisode: React.FC<FeaturedEpisodeProps> = ({
           {/* Visual Player Preview (6 cols) */}
           <div className="relative lg:col-span-7 bg-stone-900 aspect-16/10 lg:aspect-auto min-h-[300px] sm:min-h-[380px] overflow-hidden group">
             <img
-              src={episode.thumbnail}
+              src={thumbnailSrc}
               alt={episode.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />

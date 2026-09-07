@@ -9,6 +9,12 @@ interface GuestCardProps {
 }
 
 export const GuestCard: React.FC<GuestCardProps> = ({ guest, onSelect }) => {
+  if (!guest) return null;
+
+  const imageSrc =
+    guest.image ||
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80';
+
   return (
     <motion.div
       id={`guest-card-${guest.id}`}
@@ -20,8 +26,8 @@ export const GuestCard: React.FC<GuestCardProps> = ({ guest, onSelect }) => {
       {/* Portrait Image with Vignette */}
       <div className="relative aspect-4/5 w-full overflow-hidden bg-stone-900">
         <img
-          src={guest.image}
-          alt={guest.name}
+          src={imageSrc}
+          alt={guest.name || ''}
           className="w-full h-full object-cover grayscale-25 group-hover:grayscale-0 group-hover:scale-106 transition-all duration-700 ease-out"
           loading="lazy"
         />

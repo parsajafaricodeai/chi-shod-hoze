@@ -186,7 +186,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
                   >
                     <div className="flex items-center gap-3 overflow-hidden">
                       <img
-                        src={ep.thumbnail}
+                        src={ep.thumbnail || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80'}
                         alt={ep.title}
                         className="w-16 h-12 rounded-xl object-cover shrink-0"
                       />
@@ -224,7 +224,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
                     className="p-3 rounded-2xl bg-white hover:bg-[#FAF9F5] border border-stone-200/80 hover:border-[#1B3B2B]/30 transition-all flex items-center gap-3 cursor-pointer group"
                   >
                     <img
-                      src={g.image}
+                      src={g.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'}
                       alt={g.name}
                       className="w-11 h-11 rounded-full object-cover shrink-0"
                     />
@@ -261,7 +261,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({
                   >
                     <div className="relative w-12 h-16 rounded-lg overflow-hidden bg-stone-900 shrink-0">
                       <img
-                        src={c.thumbnail}
+                        src={c.thumbnail || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=200&q=80'}
                         alt={c.title}
                         className="w-full h-full object-cover"
                       />

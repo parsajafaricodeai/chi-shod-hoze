@@ -10,7 +10,7 @@ import { InteractiveQuiz } from '../components/InteractiveQuiz';
 import { QuoteSlider } from '../components/QuoteSlider';
 import { AboutSection } from '../components/AboutSection';
 import { CtaSection } from '../components/CtaSection';
-import { EPISODES_DATA, GUESTS_DATA, CLIPS_DATA } from '../data/mockData';
+import { useAppData } from '../context/DataContext';
 import { Episode, Clip } from '../types';
 
 interface HomePageProps {
@@ -28,7 +28,8 @@ export const HomePage: React.FC<HomePageProps> = ({
   onPlayClip,
   onNavigate,
 }) => {
-  const featuredEpisode = EPISODES_DATA.find((e) => e.featured) || EPISODES_DATA[0];
+  const { episodes, guests, clips } = useAppData();
+  const featuredEpisode = episodes.find((e) => e.featured) || (episodes.length > 0 ? episodes[0] : null);
 
   const handleScrollToEpisodes = () => {
     const el = document.getElementById('episodes-section');
@@ -52,15 +53,17 @@ export const HomePage: React.FC<HomePageProps> = ({
       <IntroSection onLearnMore={() => onNavigate('/about')} />
 
       {/* 3. Featured Episode */}
-      <FeaturedEpisode
-        episode={featuredEpisode}
-        onPlay={onPlayEpisode}
-        onSelect={onSelectEpisode}
-      />
+      {featuredEpisode && (
+        <FeaturedEpisode
+          episode={featuredEpisode}
+          onPlay={onPlayEpisode}
+          onSelect={onSelectEpisode}
+        />
+      )}
 
       {/* 4. Episodes Section */}
       <EpisodesSection
-        episodes={EPISODES_DATA}
+        episodes={episodes}
         onPlay={onPlayEpisode}
         onSelect={onSelectEpisode}
         onViewAll={() => onNavigate('/episodes')}
@@ -71,14 +74,14 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* 6. Guests Section */}
       <GuestsSection
-        guests={GUESTS_DATA}
+        guests={guests}
         onSelectGuest={onSelectGuest}
         onViewAllGuests={() => onNavigate('/guests')}
       />
 
       {/* 7. Short Clips Section (9:16 Reels) */}
       <ClipsSection
-        clips={CLIPS_DATA}
+        clips={clips}
         onPlayClip={onPlayClip}
         onViewAllClips={() => onNavigate('/clips')}
       />

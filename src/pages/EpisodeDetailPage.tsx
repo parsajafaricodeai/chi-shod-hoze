@@ -42,19 +42,39 @@ export const EpisodeDetailPage: React.FC<EpisodeDetailPageProps> = ({
   const [isPlayingInline, setIsPlayingInline] = useState(false);
 
   const episode =
-    episodes.find((e) => e.id === episodeId) || episodes[0];
+    episodes.find((e) => e.id === episodeId) || (episodes.length > 0 ? episodes[0] : null);
+
+  if (!episode) {
+    return (
+      <div className="pt-28 pb-24 min-h-screen bg-[#FAF9F5] text-right">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#1B3B2B] hover:text-[#2E7D52] mb-6 transition-colors"
+          >
+            <ArrowRight className="w-4 h-4" />
+            <span>بازگشت به فهرست قسمت‌ها</span>
+          </button>
+          <div className="p-12 text-center bg-white rounded-3xl border border-stone-200">
+            <h2 className="text-xl font-bold text-[#12281D] mb-2">قسمت مورد نظر یافت نشد</h2>
+            <p className="text-sm text-stone-500">اطلاعاتی برای نمایش این قسمت وجود ندارد.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const guest =
-    guests.find((g) => g.name === episode?.guest) || guests[0];
+    guests.find((g) => g.name === episode.guest) || (guests.length > 0 ? guests[0] : null);
 
   // Related clips for this episode
   const relatedClips = clips.filter((c) =>
-    episode?.relatedClipIds?.includes(c.id) || c.episodeId === episode?.id
+    episode.relatedClipIds?.includes(c.id) || c.episodeId === episode.id
   );
 
   // Suggested other episodes
   const suggestedEpisodes = episodes.filter(
-    (e) => e.id !== episode?.id
+    (e) => e.id !== episode.id
   ).slice(0, 3);
 
   const handleShare = () => {
@@ -83,7 +103,7 @@ export const EpisodeDetailPage: React.FC<EpisodeDetailPageProps> = ({
             <div className="w-full h-full relative">
               <UniversalVideoPlayer
                 videoUrl={episode.videoUrl}
-                poster={episode.thumbnail}
+                poster={episode.thumbnail || ''}
                 title={episode.title}
                 autoPlay={true}
                 aspectRatio="16/9"
@@ -102,7 +122,7 @@ export const EpisodeDetailPage: React.FC<EpisodeDetailPageProps> = ({
           ) : (
             <>
               <img
-                src={episode.thumbnail}
+                src={episode.thumbnail || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80'}
                 alt={episode.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
               />
@@ -162,7 +182,7 @@ export const EpisodeDetailPage: React.FC<EpisodeDetailPageProps> = ({
             <div className="p-6 rounded-3xl bg-white border border-[#1B3B2B]/10 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <img
-                  src={episode.guestAvatar}
+                  src={episode.guestAvatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80'}
                   alt={episode.guest}
                   className="w-16 h-16 rounded-2xl object-cover border-2 border-[#1B3B2B]/10 shadow-xs"
                 />
@@ -176,12 +196,14 @@ export const EpisodeDetailPage: React.FC<EpisodeDetailPageProps> = ({
                 </div>
               </div>
 
-              <button
-                onClick={() => onSelectGuest(guest.id)}
-                className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-xs font-bold text-[#1B3B2B] transition-colors self-end sm:self-auto"
-              >
-                مشاهده بیوگرافی مهمان ←
-              </button>
+              {guest && (
+                <button
+                  onClick={() => onSelectGuest(guest.id)}
+                  className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-xs font-bold text-[#1B3B2B] transition-colors self-end sm:self-auto"
+                >
+                  مشاهده بیوگرافی مهمان ←
+                </button>
+              )}
             </div>
 
             {/* Episode Synopsis */}

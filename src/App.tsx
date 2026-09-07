@@ -15,7 +15,6 @@ import { ClipsPage } from './pages/ClipsPage';
 import { AboutPage } from './pages/AboutPage';
 import { AdminPage } from './pages/AdminPage';
 import { Episode, Clip } from './types';
-import { EPISODES_DATA } from './data/mockData';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState<string>(() => {

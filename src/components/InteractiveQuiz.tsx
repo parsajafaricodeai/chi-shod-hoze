@@ -160,7 +160,7 @@ export const InteractiveQuiz: React.FC<InteractiveQuizProps> = ({ onSelectEpisod
                       >
                         <div className="flex items-center gap-3 overflow-hidden">
                           <img
-                            src={ep.thumbnail}
+                            src={ep.thumbnail || 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80'}
                             alt={ep.title}
                             className="w-12 h-12 rounded-lg object-cover shrink-0"
                           />

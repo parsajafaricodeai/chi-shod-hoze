@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Quote, Sparkles, BookOpen, Film, Play } from 'lucide-react';
 import { Guest, Episode } from '../types';
-import { GUESTS_DATA, EPISODES_DATA } from '../data/mockData';
+import { useAppData } from '../context/DataContext';
 import { EpisodeCard } from '../components/EpisodeCard';
 
 interface GuestDetailPageProps {
@@ -18,10 +18,31 @@ export const GuestDetailPage: React.FC<GuestDetailPageProps> = ({
   onPlayEpisode,
   onBack,
 }) => {
-  const guest = GUESTS_DATA.find((g) => g.id === guestId) || GUESTS_DATA[0];
+  const { guests, episodes } = useAppData();
+  const guest = guests.find((g) => g.id === guestId) || (guests.length > 0 ? guests[0] : null);
 
-  const guestEpisodes = EPISODES_DATA.filter((ep) =>
-    guest.episodeIds.includes(ep.id) || ep.guest === guest.name
+  if (!guest) {
+    return (
+      <div className="pt-28 pb-24 min-h-screen bg-[#FAF9F5] text-right">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#1B3B2B] hover:text-[#2E7D52] mb-6 transition-colors"
+          >
+            <ArrowRight className="w-4 h-4" />
+            <span>بازگشت به فهرست مهمان‌ها</span>
+          </button>
+          <div className="p-12 text-center bg-white rounded-3xl border border-stone-200">
+            <h2 className="text-xl font-bold text-[#12281D] mb-2">مهمان مورد نظر یافت نشد</h2>
+            <p className="text-sm text-stone-500">اطلاعاتی برای نمایش این مهمان وجود ندارد.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const guestEpisodes = episodes.filter((ep) =>
+    (guest.episodeIds && guest.episodeIds.includes(ep.id)) || ep.guest === guest.name
   );
 
   return (
@@ -43,7 +64,7 @@ export const GuestDetailPage: React.FC<GuestDetailPageProps> = ({
             <div className="md:col-span-4 relative mx-auto md:mx-0 w-full max-w-[280px]">
               <div className="rounded-3xl overflow-hidden aspect-4/5 shadow-xl border-4 border-white bg-stone-900">
                 <img
-                  src={guest.image}
+                  src={guest.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80'}
                   alt={guest.name}
                   className="w-full h-full object-cover"
                 />

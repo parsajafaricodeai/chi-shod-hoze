@@ -9,6 +9,12 @@ interface ClipCardProps {
 }
 
 export const ClipCard: React.FC<ClipCardProps> = ({ clip, onPlay }) => {
+  if (!clip) return null;
+
+  const thumbnailSrc =
+    clip.thumbnail ||
+    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80';
+
   return (
     <motion.div
       id={`clip-card-${clip.id}`}
@@ -19,8 +25,8 @@ export const ClipCard: React.FC<ClipCardProps> = ({ clip, onPlay }) => {
     >
       {/* 9:16 Background Image */}
       <img
-        src={clip.thumbnail}
-        alt={clip.title}
+        src={thumbnailSrc}
+        alt={clip.title || ''}
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
         loading="lazy"
       />

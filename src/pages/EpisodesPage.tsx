@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, Filter, Film, Play, Clock, ArrowLeft } from 'lucide-react';
-import { EPISODES_DATA } from '../data/mockData';
+import { useAppData } from '../context/DataContext';
 import { Episode, CategoryKey } from '../types';
 import { EpisodeCard } from '../components/EpisodeCard';
 import { EmptyState } from '../components/StateViews';
@@ -15,6 +15,7 @@ export const EpisodesPage: React.FC<EpisodesPageProps> = ({
   onPlayEpisode,
   onSelectEpisode,
 }) => {
+  const { episodes } = useAppData();
   const [activeCategory, setActiveCategory] = useState<CategoryKey>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'latest' | 'popular'>('latest');
@@ -27,7 +28,7 @@ export const EpisodesPage: React.FC<EpisodesPageProps> = ({
     { key: 'special', label: 'روایت‌های ویژه' },
   ];
 
-  const filtered = EPISODES_DATA.filter((ep) => {
+  const filtered = episodes.filter((ep) => {
     const matchesCategory =
       activeCategory === 'all' || ep.category === activeCategory;
     const cleanQ = searchQuery.trim().toLowerCase();

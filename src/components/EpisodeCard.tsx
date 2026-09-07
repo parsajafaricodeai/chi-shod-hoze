@@ -10,6 +10,12 @@ interface EpisodeCardProps {
 }
 
 export const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay, onSelect }) => {
+  if (!episode) return null;
+
+  const thumbnailSrc =
+    episode.thumbnail ||
+    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80';
+
   return (
     <motion.article
       id={`episode-card-${episode.id}`}
@@ -20,8 +26,8 @@ export const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, onPlay, onSel
       {/* Thumbnail Container with Play Overlay */}
       <div className="relative aspect-16/9 w-full overflow-hidden bg-stone-900">
         <img
-          src={episode.thumbnail}
-          alt={episode.title}
+          src={thumbnailSrc}
+          alt={episode.title || ''}
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
           loading="lazy"
         />

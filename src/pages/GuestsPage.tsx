@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Users, Search } from 'lucide-react';
-import { GUESTS_DATA } from '../data/mockData';
+import { useAppData } from '../context/DataContext';
 import { Guest } from '../types';
 import { GuestCard } from '../components/GuestCard';
 import { EmptyState } from '../components/StateViews';
@@ -11,9 +11,10 @@ interface GuestsPageProps {
 }
 
 export const GuestsPage: React.FC<GuestsPageProps> = ({ onSelectGuest }) => {
+  const { guests } = useAppData();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredGuests = GUESTS_DATA.filter((g) => {
+  const filteredGuests = guests.filter((g) => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return true;
     return (
